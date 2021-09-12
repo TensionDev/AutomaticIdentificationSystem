@@ -1,0 +1,53 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Package Release
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push events but only for the tags
+  push:
+    tags:
+    - v[0-9]+.[0-9]+.[0-9]+
+    - v[0-9]+.[0-9]+.[0-9]+-alpha
+    - v[0-9]+.[0-9]+.[0-9]+-beta
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET Core 3.1
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.x
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+
+      - name: Build Release
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Pack
+        run: dotnet pack --configuration Release
+
+      - name: Push GitHub
+        run: dotnet nuget push "NMEA0183/bin/Release/*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --no-symbols --skip-duplicate
+
+      - name: Push NuGet
+        run: dotnet nuget push "NMEA0183/bin/Release/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_TOKEN }} --no-symbols --skip-duplicate
