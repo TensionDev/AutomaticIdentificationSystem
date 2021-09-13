@@ -5,13 +5,13 @@ using System.Text;
 namespace TensionDev.Maritime.AIS
 {
     /// <summary>
-    /// Message 1: Position reports
+    /// Message 1: Position report (Scheduled)
     /// </summary>
     public class AISMessage01 : AISMessage
     {
-        private UInt64 bitVector0_59;
-        private UInt64 bitVector60_119;
-        private UInt64 bitVector120_167;
+        private UInt64 _bitVector0_59;
+        private UInt64 _bitVector60_119;
+        private UInt64 _bitVector120_167;
 
         protected UInt32 userId30;
         protected UInt16 navigationalStatus4;
@@ -368,9 +368,9 @@ namespace TensionDev.Maritime.AIS
 
             String payload = payloads[0];
 
-            bitVector0_59 = DecodePayload(payload, 0, 10);
-            bitVector60_119 = DecodePayload(payload, 10, 10);
-            bitVector120_167 = DecodePayload(payload, 20, 8);
+            _bitVector0_59 = DecodePayload(payload, 0, 10);
+            _bitVector60_119 = DecodePayload(payload, 10, 10);
+            _bitVector120_167 = DecodePayload(payload, 20, 8);
 
             SetBitVector0_59();
             SetBitVector60_119();
@@ -387,189 +387,189 @@ namespace TensionDev.Maritime.AIS
             GetBitVector60_119();
             GetBitVector120_167();
 
-            payload.Append(EncodePayload(bitVector0_59, 60));
-            payload.Append(EncodePayload(bitVector60_119, 60));
-            payload.Append(EncodePayload(bitVector120_167, 48));
+            payload.Append(EncodePayload(_bitVector0_59, 60));
+            payload.Append(EncodePayload(_bitVector60_119, 60));
+            payload.Append(EncodePayload(_bitVector120_167, 48));
 
             payloads.Add(payload.ToString());
 
             return payloads;
         }
-            
+
         private void GetBitVector0_59()
         {
-            bitVector0_59 = 0;
+            _bitVector0_59 = 0;
 
-            bitVector0_59 = messageId6;
+            _bitVector0_59 = messageId6;
 
-            bitVector0_59 <<= 2;
-            bitVector0_59 |= repeatIndicator2;
+            _bitVector0_59 <<= 2;
+            _bitVector0_59 |= repeatIndicator2;
 
-            bitVector0_59 <<= 30;
-            bitVector0_59 |= userId30;
+            _bitVector0_59 <<= 30;
+            _bitVector0_59 |= userId30;
 
-            bitVector0_59 <<= 4;
-            bitVector0_59 |= navigationalStatus4;
+            _bitVector0_59 <<= 4;
+            _bitVector0_59 |= navigationalStatus4;
 
             if (rateOfTurn8 < 0)
             {
                 UInt64 tempRateOfTurn = (UInt64)(rateOfTurn8 + (Int32)0xFF);
 
-                bitVector0_59 <<= 8;
-                bitVector0_59 |= tempRateOfTurn;
+                _bitVector0_59 <<= 8;
+                _bitVector0_59 |= tempRateOfTurn;
             }
             else
             {
-                bitVector0_59 <<= 8;
-                bitVector0_59 |= (UInt64)((UInt16)rateOfTurn8);
+                _bitVector0_59 <<= 8;
+                _bitVector0_59 |= (UInt64)((UInt16)rateOfTurn8);
             }
 
-            bitVector0_59 <<= 10;
-            bitVector0_59 |= speedOverGround10;
+            _bitVector0_59 <<= 10;
+            _bitVector0_59 |= speedOverGround10;
         }
 
         private void GetBitVector60_119()
         {
-            bitVector60_119 = 0;
+            _bitVector60_119 = 0;
 
             if (positionAccuracy1)
             {
-                bitVector60_119 |= 1;
+                _bitVector60_119 |= 1;
             }
 
             if (longitude28 < 0)
             {
                 UInt64 tempLongitude = (UInt64)(longitude28 + (Int32)0xFFFFFFF);
 
-                bitVector60_119 <<= 28;
-                bitVector60_119 |= tempLongitude;
+                _bitVector60_119 <<= 28;
+                _bitVector60_119 |= tempLongitude;
             }
             else
             {
-                bitVector60_119 <<= 28;
-                bitVector60_119 |= (UInt64)((UInt32)longitude28);
+                _bitVector60_119 <<= 28;
+                _bitVector60_119 |= (UInt64)((UInt32)longitude28);
             }
 
             if (latitude27 < 0)
             {
                 UInt64 tempLatitude = (UInt64)(latitude27 + (Int32)0x7FFFFFF);
 
-                bitVector60_119 <<= 27;
-                bitVector60_119 |= tempLatitude;
+                _bitVector60_119 <<= 27;
+                _bitVector60_119 |= tempLatitude;
             }
             else
             {
-                bitVector60_119 <<= 27;
-                bitVector60_119 |= (UInt64)((UInt32)latitude27);
+                _bitVector60_119 <<= 27;
+                _bitVector60_119 |= (UInt64)((UInt32)latitude27);
             }
 
-            bitVector60_119 <<= 4;
-            bitVector60_119 |= GetBitVector((UInt64)courseOverGround12, 12, 8);
+            _bitVector60_119 <<= 4;
+            _bitVector60_119 |= GetBitVector((UInt64)courseOverGround12, 12, 8);
         }
 
         private void GetBitVector120_167()
         {
-            bitVector120_167 = 0;
+            _bitVector120_167 = 0;
 
-            bitVector120_167 = GetBitVector((UInt64)courseOverGround12, 8);
+            _bitVector120_167 = GetBitVector((UInt64)courseOverGround12, 8);
 
-            bitVector120_167 <<= 9;
-            bitVector120_167 |= trueHeading9;
+            _bitVector120_167 <<= 9;
+            _bitVector120_167 |= trueHeading9;
 
-            bitVector120_167 <<= 6;
-            bitVector120_167 |= timestamp6;
+            _bitVector120_167 <<= 6;
+            _bitVector120_167 |= timestamp6;
 
-            bitVector120_167 <<= 2;
-            bitVector120_167 |= specialManoeuvreIndicator2;
+            _bitVector120_167 <<= 2;
+            _bitVector120_167 |= specialManoeuvreIndicator2;
 
-            bitVector120_167 <<= 3;
-            bitVector120_167 |= spare3;
+            _bitVector120_167 <<= 3;
+            _bitVector120_167 |= spare3;
 
-            bitVector120_167 <<= 1;
+            _bitVector120_167 <<= 1;
             if (raim1)
             {
-                bitVector120_167 |= 1;
+                _bitVector120_167 |= 1;
             }
 
-            bitVector120_167 <<= 19;
-            bitVector120_167 |= CommunicationState.CommunicationState;
+            _bitVector120_167 <<= 19;
+            _bitVector120_167 |= CommunicationState.CommunicationState;
         }
 
         private void SetBitVector0_59()
         {
-            speedOverGround10 = (UInt16)(bitVector0_59 & 0x3FF);
-            bitVector0_59 >>= 10;
+            speedOverGround10 = (UInt16)(_bitVector0_59 & 0x3FF);
+            _bitVector0_59 >>= 10;
 
-            rateOfTurn8 = (Int16)(bitVector0_59 & 0xFF);
+            rateOfTurn8 = (Int16)(_bitVector0_59 & 0xFF);
             if (rateOfTurn8 > 0x7F)
             {
                 rateOfTurn8 -= 0xFF;
             }
-            bitVector0_59 >>= 8;
+            _bitVector0_59 >>= 8;
 
-            navigationalStatus4 = (UInt16)(bitVector0_59 & 0xF);
-            bitVector0_59 >>= 4;
+            navigationalStatus4 = (UInt16)(_bitVector0_59 & 0xF);
+            _bitVector0_59 >>= 4;
 
-            userId30 = (UInt32)(bitVector0_59 & 0x7FFFFFFF);
-            bitVector0_59 >>= 30;
+            userId30 = (UInt32)(_bitVector0_59 & 0x7FFFFFFF);
+            _bitVector0_59 >>= 30;
 
-            repeatIndicator2 = (UInt16)(bitVector0_59 & 0x3);
-            bitVector0_59 >>= 2;
+            repeatIndicator2 = (UInt16)(_bitVector0_59 & 0x3);
+            _bitVector0_59 >>= 2;
 
-            messageId6 = (UInt16)(bitVector0_59 & 0x3F);
-            bitVector0_59 >>= 6;
+            messageId6 = (UInt16)(_bitVector0_59 & 0x3F);
+            _bitVector0_59 >>= 6;
         }
 
         private void SetBitVector60_119()
         {
-            courseOverGround12 = (UInt16)(bitVector60_119 & 0xF);
+            courseOverGround12 = (UInt16)(_bitVector60_119 & 0xF);
             courseOverGround12 <<= 8;
-            bitVector60_119 >>= 4;
+            _bitVector60_119 >>= 4;
 
-            latitude27 = (Int32)(bitVector60_119 & 0x7FFFFFF);
+            latitude27 = (Int32)(_bitVector60_119 & 0x7FFFFFF);
             if (latitude27 > 0x3FFFFFF)
             {
                 latitude27 -= 0x7FFFFFF;
             }
-            bitVector60_119 >>= 27;
+            _bitVector60_119 >>= 27;
 
-            longitude28 = (Int32)(bitVector60_119 & 0xFFFFFFF);
+            longitude28 = (Int32)(_bitVector60_119 & 0xFFFFFFF);
             if (longitude28 > 0x7FFFFFF)
             {
                 longitude28 -= 0xFFFFFFF;
             }
-            bitVector60_119 >>= 28;
+            _bitVector60_119 >>= 28;
 
-            positionAccuracy1 = ((bitVector60_119 & 0x1) != 0);
-            bitVector60_119 >>= 1;
+            positionAccuracy1 = ((_bitVector60_119 & 0x1) != 0);
+            _bitVector60_119 >>= 1;
         }
 
         private void SetBitVector120_167()
         {
-            UInt32 communicationState = (UInt32)(bitVector120_167 & 0x7FFFF);
-            bitVector120_167 >>= 19;
+            UInt32 communicationState = (UInt32)(_bitVector120_167 & 0x7FFFF);
+            _bitVector120_167 >>= 19;
             CommunicationState = new SOTDMACommunicationState()
             {
                 CommunicationState = communicationState
             };
 
-            raim1 = ((bitVector120_167 & 0x1) != 0);
-            bitVector120_167 >>= 1;
+            raim1 = ((_bitVector120_167 & 0x1) != 0);
+            _bitVector120_167 >>= 1;
 
-            spare3 = (UInt16)(bitVector120_167 & 0x7);
-            bitVector120_167 >>= 3;
+            spare3 = (UInt16)(_bitVector120_167 & 0x7);
+            _bitVector120_167 >>= 3;
 
-            specialManoeuvreIndicator2 = (UInt16)(bitVector120_167 & 0x3);
-            bitVector120_167 >>= 2;
+            specialManoeuvreIndicator2 = (UInt16)(_bitVector120_167 & 0x3);
+            _bitVector120_167 >>= 2;
 
-            timestamp6 = (UInt16)(bitVector120_167 & 0x3F);
-            bitVector120_167 >>= 6;
+            timestamp6 = (UInt16)(_bitVector120_167 & 0x3F);
+            _bitVector120_167 >>= 6;
 
-            trueHeading9 = (UInt16)(bitVector120_167 & 0x1FF);
-            bitVector120_167 >>= 9;
+            trueHeading9 = (UInt16)(_bitVector120_167 & 0x1FF);
+            _bitVector120_167 >>= 9;
 
-            courseOverGround12 |= (UInt16)(bitVector120_167 & 0xFF);
-            bitVector120_167 >>= 8;
+            courseOverGround12 |= (UInt16)(_bitVector120_167 & 0xFF);
+            _bitVector120_167 >>= 8;
         }
 
         public enum NavigationalStatusEnum

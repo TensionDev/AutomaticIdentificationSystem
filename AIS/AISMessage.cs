@@ -83,6 +83,10 @@ namespace TensionDev.Maritime.AIS
                     aisMessage = new AISMessage01();
                     break;
 
+                case "5":
+                    aisMessage = new AISMessage05();
+                    break;
+
                 default:
                     throw new NotImplementedException("Message Identifier not recognised.");
             }

@@ -9,5 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Added Message 1: Position reports.
-- Added Message 5: Ship static and voyage related data.
+- Added Message 18: Standard Class B equipment position report.
+- Added Message 24: Class B 'CS' static data.
+
+
+## [v0.1.0-alpha] - 2021-09-13
+[v0.1.0-alpha](https://github.com/TensionDev/AutomaticIdentificationSystem/releases/tag/v0.1.0-alpha)
+
+### Added
+- Added Message 1: Position report (Scheduled).
+- Added Message 5: Static and voyage related data.

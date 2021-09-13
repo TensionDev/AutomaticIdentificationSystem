@@ -47,7 +47,7 @@ jobs:
         run: dotnet pack --configuration Release
 
       - name: Push GitHub
-        run: dotnet nuget push "NMEA0183/bin/Release/*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --no-symbols --skip-duplicate
+        run: dotnet nuget push "AIS/bin/Release/*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --no-symbols --skip-duplicate
 
       - name: Push NuGet
-        run: dotnet nuget push "NMEA0183/bin/Release/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_TOKEN }} --no-symbols --skip-duplicate
+        run: dotnet nuget push "AIS/bin/Release/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_TOKEN }} --no-symbols --skip-duplicate
