@@ -83,8 +83,28 @@ namespace TensionDev.Maritime.AIS
                     aisMessage = new AISMessage01();
                     break;
 
+                case "2":
+                    aisMessage = new AISMessage02();
+                    break;
+
+                case "3":
+                    aisMessage = new AISMessage03();
+                    break;
+
+                case "4":
+                    aisMessage = new AISMessage04();
+                    break;
+
                 case "5":
                     aisMessage = new AISMessage05();
+                    break;
+
+                case "B":
+                    aisMessage = new AISMessage18();
+                    break;
+
+                case "H":
+                    aisMessage = new AISMessage24();
                     break;
 
                 default:

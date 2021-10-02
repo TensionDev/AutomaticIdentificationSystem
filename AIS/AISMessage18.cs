@@ -5,17 +5,16 @@ using System.Text;
 namespace TensionDev.Maritime.AIS
 {
     /// <summary>
-    /// Message 1: Position report (Scheduled)
+    /// Messages 18: Standard Class B equipment position report 
     /// </summary>
-    public class AISMessage01 : AISMessage
+    public class AISMessage18 : AISMessage
     {
         private UInt64 _bitVector0_59;
         private UInt64 _bitVector60_119;
         private UInt64 _bitVector120_167;
 
         protected UInt32 userId30;
-        protected UInt16 navigationalStatus4;
-        protected Int16 rateOfTurn8;
+        protected UInt16 regionalLocalApplications8;
         protected UInt16 speedOverGround10;
         protected Boolean positionAccuracy1;
         protected Int32 longitude28;
@@ -23,9 +22,10 @@ namespace TensionDev.Maritime.AIS
         protected UInt16 courseOverGround12;
         protected UInt16 trueHeading9;
         protected UInt16 timestamp6;
-        protected UInt16 specialManoeuvreIndicator2;
-        protected UInt16 spare3;
+        protected UInt16 regionalApplications4;
+        protected UInt16 spare4;
         protected Boolean raim1;
+        protected Boolean communicationStateSelector1;
 
         /// <summary>
         /// Unique identifier such as MMSI number
@@ -33,59 +33,16 @@ namespace TensionDev.Maritime.AIS
         public String UserId { get => userId30.ToString("D9"); set => userId30 = UInt32.Parse(value); }
 
         /// <summary>
-        /// Navigation Status
+        /// Reserved for definition by a competent regional or local authority. 
+        /// Should be set to zero, if not used for any regional or local application. 
+        /// Regional applications should not use zero
         /// </summary>
-        public NavigationalStatusEnum NavigationalStatus { get => (NavigationalStatusEnum)(navigationalStatus4); set => navigationalStatus4 = (UInt16)value; }
-
-        /// <summary>
-        /// Rate of Turn in degrees per minute
-        /// </summary>
-        public Double RateOfTurnDegreesPerMinute
-        {
-            get
-            {
-                if (rateOfTurn8 == -128)
-                {
-                    return 0;
-                }
-                else if (rateOfTurn8 == -127 || rateOfTurn8 == 127)
-                {
-                    if (rateOfTurn8 == -127)
-                    {
-                        return -10;
-                    }
-                    else
-                    {
-                        return 10;
-                    }
-                }
-                else
-                {
-                    Double rot = Math.Pow(rateOfTurn8 / 4.733, 2);
-                    if (rateOfTurn8 < 0)
-                    {
-                        rot *= -1;
-                    }
-
-                    return rot;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Is the Turn Indicator Available?
-        /// </summary>
-        public Boolean TurnIndicatorAvailable { get => Math.Abs(rateOfTurn8) < 127; }
-
-        /// <summary>
-        /// Is the Turn Information Available?
-        /// </summary>
-        public Boolean TurnInformationAvailable { get => Math.Abs(rateOfTurn8) < 128; }
+        public UInt16 ReservedForRegionalOrLocalApplications { get => regionalLocalApplications8; set => regionalLocalApplications8 = value; }
 
         /// <summary>
         /// Speed Over Ground in Knots
         /// </summary>
-        public Decimal SpeedOverGroundKnots { get => speedOverGround10 / 10.0M; set => speedOverGround10 = (UInt16)Math.Min(1023, Math.Abs(value * 10)); }
+        public Decimal SpeedOverGroundKnots { get => speedOverGround10 < 1023 ? speedOverGround10 / 10.0M : 0; set => speedOverGround10 = (UInt16)Math.Min(1023, Math.Abs(value * 10)); }
 
         /// <summary>
         /// Is the Speed Over Ground Available?
@@ -156,12 +113,11 @@ namespace TensionDev.Maritime.AIS
         public UInt16 Timestamp { get => timestamp6; set => timestamp6 = value; }
 
         /// <summary>
-        /// <para>0 = not available = default</para>
-        /// <para>1 = not engaged in special manoeuvre</para>
-        /// <para>2 = engaged in special manoeuvre</para>
-        /// <para>(i.e.regional passing arrangement on Inland Waterway)</para>
+        /// Reserved for definition by a competent regional authority. 
+        /// Should be set to zero, if not used for any regional application. 
+        /// Regional applications should not use zero 
         /// </summary>
-        public SpecialManoeuvreIndicatorEnum SpecialManoeuvreIndicator { get => (SpecialManoeuvreIndicatorEnum)(specialManoeuvreIndicator2); set => specialManoeuvreIndicator2 = (UInt16)value; }
+        public UInt16 ReservedForRegionalApplications { get => regionalApplications4; set => regionalApplications4 = value; }
 
         /// <summary>
         /// Receiver autonomous integrity monitoring (RAIM) flag of electronic
@@ -172,84 +128,33 @@ namespace TensionDev.Maritime.AIS
         public Boolean RAIMFlag { get => raim1; set => raim1 = value; }
 
         /// <summary>
-        /// SOTDMA communication state as described in § 3.3.7.2.2, Annex 2
+        /// <para>False = SOTDMA communication state follows</para>
+        /// <para>True = ITDMA communication state follows</para>
         /// </summary>
-        public SOTDMACommunicationState CommunicationState { get; set; }
+        public Boolean CommunicationStateSelectorFlag { get => communicationStateSelector1; set => communicationStateSelector1 = value; }
 
-        public AISMessage01()
+        /// <summary>
+        /// SOTDMA communication state (see ß 3.3.7.2.2), if communication
+        /// state selector flag is set to 0, or ITDMA communication state(see
+        /// ß 3.3.7.2.3), if communication state selector flag is set to 1
+        /// </summary>
+        public AISCommunicationState CommunicationState { get; set; }
+
+        public AISMessage18()
         {
-            MessageId = 1;
+            MessageId = 18;
             RepeatIndicator = 0;
-            NavigationalStatus = NavigationalStatusEnum.Undefined;
-            rateOfTurn8 = -128;
+            regionalLocalApplications8 = 0;
             speedOverGround10 = 1023;
             positionAccuracy1 = false;
-            longitude28 = 0x6791AC0;
-            latitude27 = 0x3412140;
+            longitude28 = 181;
+            latitude27 = 91;
             courseOverGround12 = 3600;
             trueHeading9 = 511;
             timestamp6 = 60;
-            specialManoeuvreIndicator2 = 0;
+            regionalApplications4 = 0;
+            spare4 = 0;
             raim1 = false;
-        }
-
-        /// <summary>
-        /// <para>0 to +126 = turning right at up to 708° per min or higher</para>
-        /// <para>0 to –126 = turning left at up to 708° per min or higher</para>
-        /// <para>Values between 0 and 708° per min coded by</para>
-        /// <para>ROTAIS = 4.733 SQRT(ROTsensor) degrees per min</para>
-        /// <para>where ROTsensor is the Rate of Turn as input by an external Rate of Turn</para>
-        /// <para>Indicator(TI). ROTAIS is rounded to the nearest integer value.</para>
-        /// <para>+127 = turning right at more than 5° per 30 s (No TI available)</para>
-        /// <para>–127 = turning left at more than 5° per 30 s(No TI available)</para>
-        /// </summary>
-        /// <param name="rateOfTurn">
-        /// <para>Rate of turn at up to 708° per min or higher.</para>
-        /// <para>Positive is turning right, Negative is turning left.</para>
-        /// </param>
-        /// <param name="TurnIndicatorAvailable">Is the Turn Indicator available?</param>
-        public void SetRateOfTurn(Double rateOfTurn, Boolean TurnIndicatorAvailable = true)
-        {
-            if (TurnIndicatorAvailable)
-            {
-                if (rateOfTurn < 0)
-                {
-                    rateOfTurn8 = (Int16)((-1) * Math.Min((UInt16)(4.733 * Math.Sqrt(Math.Abs(rateOfTurn))),
-                        (UInt16)126));
-                }
-                else
-                {
-                    rateOfTurn8 = (Int16)Math.Min((UInt16)(4.733 * Math.Sqrt(Math.Abs(rateOfTurn))),
-                        (UInt16)126);
-                }
-            }
-            else
-            {
-                // turning left at more than 5° per 30 s (No TI available)
-                // turning left at more than 10° per minute
-                if (rateOfTurn < 10)
-                {
-                    rateOfTurn8 = -127;
-                }
-                // turning right at more than 5° per 30 s (No TI available)
-                // turning right at more than 10° per minute
-                else if (rateOfTurn > 10)
-                {
-                    rateOfTurn8 = 127;
-                }
-                else
-                {
-                    rateOfTurn8 = 0;
-                }
-            }
-        }
-
-        /// <summary>
-        /// –128 (80 hex) indicates no turn information available (default)
-        /// </summary>
-        public void SetNoTurnInformation()
-        {
-            rateOfTurn8 = -128;
         }
 
         /// <summary>
@@ -350,7 +255,7 @@ namespace TensionDev.Maritime.AIS
             StringBuilder stringBuilder = new StringBuilder();
             IList<String> payload = EncodePayloads();
 
-            stringBuilder.AppendFormat("!AIVDM,1,1,,A,{0},0", payload[0]);
+            stringBuilder.AppendFormat("!AIVDM,1,1,,B,{0},0", payload[0]);
 
             Byte checksum = CalculateChecksum(stringBuilder.ToString());
 
@@ -408,30 +313,13 @@ namespace TensionDev.Maritime.AIS
             _bitVector0_59 <<= 30;
             _bitVector0_59 |= userId30;
 
-            _bitVector0_59 <<= 4;
-            _bitVector0_59 |= navigationalStatus4;
-
-            if (rateOfTurn8 < 0)
-            {
-                UInt64 tempRateOfTurn = (UInt64)(rateOfTurn8 + (Int32)0xFF);
-
-                _bitVector0_59 <<= 8;
-                _bitVector0_59 |= tempRateOfTurn;
-            }
-            else
-            {
-                _bitVector0_59 <<= 8;
-                _bitVector0_59 |= (UInt64)((UInt16)rateOfTurn8);
-            }
+            _bitVector0_59 <<= 8;
+            _bitVector0_59 |= regionalLocalApplications8;
 
             _bitVector0_59 <<= 10;
             _bitVector0_59 |= speedOverGround10;
-        }
 
-        private void GetBitVector60_119()
-        {
-            _bitVector60_119 = 0;
-
+            _bitVector0_59 <<= 1;
             if (positionAccuracy1)
             {
                 _bitVector60_119 |= 1;
@@ -441,13 +329,29 @@ namespace TensionDev.Maritime.AIS
             {
                 UInt64 tempLongitude = (UInt64)(longitude28 + (Int32)0xFFFFFFF);
 
-                _bitVector60_119 <<= 28;
-                _bitVector60_119 |= tempLongitude;
+                _bitVector0_59 <<= 3;
+                _bitVector0_59 |= GetBitVector(tempLongitude, 28, 25);
             }
             else
             {
-                _bitVector60_119 <<= 28;
-                _bitVector60_119 |= (UInt64)((UInt32)longitude28);
+                _bitVector0_59 <<= 3;
+                _bitVector0_59 |= GetBitVector(longitude28, 28, 25);
+            }
+        }
+
+        private void GetBitVector60_119()
+        {
+            _bitVector60_119 = 0;
+
+            if (longitude28 < 0)
+            {
+                UInt64 tempLongitude = (UInt64)(longitude28 + (Int32)0xFFFFFFF);
+
+                _bitVector60_119 = GetBitVector((UInt64)tempLongitude, 25);
+            }
+            else
+            {
+                _bitVector60_119 = GetBitVector((UInt64)longitude28, 25);
             }
 
             if (latitude27 < 0)
@@ -463,15 +367,15 @@ namespace TensionDev.Maritime.AIS
                 _bitVector60_119 |= (UInt64)((UInt32)latitude27);
             }
 
-            _bitVector60_119 <<= 4;
-            _bitVector60_119 |= GetBitVector((UInt64)courseOverGround12, 12, 8);
+            _bitVector60_119 <<= 8;
+            _bitVector60_119 |= GetBitVector((UInt64)courseOverGround12, 12, 4);
         }
 
         private void GetBitVector120_167()
         {
             _bitVector120_167 = 0;
 
-            _bitVector120_167 = GetBitVector((UInt64)courseOverGround12, 8);
+            _bitVector120_167 = GetBitVector((UInt64)courseOverGround12, 4);
 
             _bitVector120_167 <<= 9;
             _bitVector120_167 |= trueHeading9;
@@ -479,14 +383,20 @@ namespace TensionDev.Maritime.AIS
             _bitVector120_167 <<= 6;
             _bitVector120_167 |= timestamp6;
 
-            _bitVector120_167 <<= 2;
-            _bitVector120_167 |= specialManoeuvreIndicator2;
+            _bitVector120_167 <<= 4;
+            _bitVector120_167 |= regionalApplications4;
 
-            _bitVector120_167 <<= 3;
-            _bitVector120_167 |= spare3;
+            _bitVector120_167 <<= 4;
+            _bitVector120_167 |= spare4;
 
             _bitVector120_167 <<= 1;
             if (raim1)
+            {
+                _bitVector120_167 |= 1;
+            }
+
+            _bitVector120_167 <<= 1;
+            if (communicationStateSelector1)
             {
                 _bitVector120_167 |= 1;
             }
@@ -497,18 +407,18 @@ namespace TensionDev.Maritime.AIS
 
         private void SetBitVector0_59()
         {
+            longitude28 = (Int32)(_bitVector0_59 & 0x7);
+            longitude28 <<= 25;
+            _bitVector0_59 >>= 3;
+
+            positionAccuracy1 = ((_bitVector0_59 & 0x1) != 0);
+            _bitVector0_59 >>= 1;
+
             speedOverGround10 = (UInt16)(_bitVector0_59 & 0x3FF);
             _bitVector0_59 >>= 10;
 
-            rateOfTurn8 = (Int16)(_bitVector0_59 & 0xFF);
-            if (rateOfTurn8 > 0x7F)
-            {
-                rateOfTurn8 -= 0xFF;
-            }
+            regionalLocalApplications8 = (UInt16)(_bitVector0_59 & 0xFF);
             _bitVector0_59 >>= 8;
-
-            navigationalStatus4 = (UInt16)(_bitVector0_59 & 0xF);
-            _bitVector0_59 >>= 4;
 
             userId30 = (UInt32)(_bitVector0_59 & 0x7FFFFFFF);
             _bitVector0_59 >>= 30;
@@ -522,9 +432,9 @@ namespace TensionDev.Maritime.AIS
 
         private void SetBitVector60_119()
         {
-            courseOverGround12 = (UInt16)(_bitVector60_119 & 0xF);
-            courseOverGround12 <<= 8;
-            _bitVector60_119 >>= 4;
+            courseOverGround12 = (UInt16)(_bitVector60_119 & 0xFF);
+            courseOverGround12 <<= 4;
+            _bitVector60_119 >>= 8;
 
             latitude27 = (Int32)(_bitVector60_119 & 0x7FFFFFF);
             if (latitude27 > 0x3FFFFFF)
@@ -533,34 +443,45 @@ namespace TensionDev.Maritime.AIS
             }
             _bitVector60_119 >>= 27;
 
-            longitude28 = (Int32)(_bitVector60_119 & 0xFFFFFFF);
+            longitude28 |= (Int32)(_bitVector60_119 & 0x1FFFFFF);
+            _bitVector60_119 >>= 25;
             if (longitude28 > 0x7FFFFFF)
             {
                 longitude28 -= 0xFFFFFFF;
             }
-            _bitVector60_119 >>= 28;
-
-            positionAccuracy1 = ((_bitVector60_119 & 0x1) != 0);
-            _bitVector60_119 >>= 1;
         }
 
         private void SetBitVector120_167()
         {
             UInt32 communicationState = (UInt32)(_bitVector120_167 & 0x7FFFF);
             _bitVector120_167 >>= 19;
-            CommunicationState = new SOTDMACommunicationState()
+
+            communicationStateSelector1 = ((_bitVector120_167 & 0x1) != 0);
+            _bitVector120_167 >>= 1;
+
+            if (communicationStateSelector1)
             {
-                CommunicationState = communicationState
-            };
+                CommunicationState = new ITDMACommunicationState()
+                {
+                    CommunicationState = communicationState
+                };
+            }
+            else
+            {
+                CommunicationState = new SOTDMACommunicationState()
+                {
+                    CommunicationState = communicationState
+                };
+            }
 
             raim1 = ((_bitVector120_167 & 0x1) != 0);
             _bitVector120_167 >>= 1;
 
-            spare3 = (UInt16)(_bitVector120_167 & 0x7);
-            _bitVector120_167 >>= 3;
+            spare4 = (UInt16)(_bitVector120_167 & 0xF);
+            _bitVector120_167 >>= 4;
 
-            specialManoeuvreIndicator2 = (UInt16)(_bitVector120_167 & 0x3);
-            _bitVector120_167 >>= 2;
+            regionalApplications4 = (UInt16)(_bitVector120_167 & 0xF);
+            _bitVector120_167 >>= 4;
 
             timestamp6 = (UInt16)(_bitVector120_167 & 0x3F);
             _bitVector120_167 >>= 6;
@@ -568,117 +489,7 @@ namespace TensionDev.Maritime.AIS
             trueHeading9 = (UInt16)(_bitVector120_167 & 0x1FF);
             _bitVector120_167 >>= 9;
 
-            courseOverGround12 |= (UInt16)(_bitVector120_167 & 0xFF);
-            _bitVector120_167 >>= 8;
-        }
-
-        public enum NavigationalStatusEnum
-        {
-            /// <summary>
-            /// 0 = under way using engine
-            /// </summary>
-            UnderWayUsingEngine = 0,
-            /// <summary>
-            /// 1 = at anchor
-            /// </summary>
-            AtAnchor = 1,
-            /// <summary>
-            /// 2 = not under command
-            /// </summary>
-            NotUnderCommand = 2,
-            /// <summary>
-            /// 3 = restricted maneuverability
-            /// </summary>
-            RestrictedManeuverability = 3,
-            /// <summary>
-            /// 4 = constrained by her draught
-            /// </summary>
-            ConstrainedByHerDraught = 4,
-            /// <summary>
-            /// 5 = moored
-            /// </summary>
-            Moored = 5,
-            /// <summary>
-            /// 6 = aground
-            /// </summary>
-            Aground = 6,
-            /// <summary>
-            /// 7 = engaged in fishing
-            /// </summary>
-            EnagagedInFishing = 7,
-            /// <summary>
-            /// 8 = under way sailing
-            /// </summary>
-            UnderWaySailing = 8,
-            /// <summary>
-            /// 9 = reserved for
-            /// future amendment of navigational status for ships carrying DG, HS, or MP,
-            /// or IMO hazard or pollutant category C, high speed craft (HSC)
-            /// </summary>
-            ReservedForFutureAmendmentForHighSpeedCraft = 9,
-            /// <summary>
-            /// 10 = reserved for future amendment of navigational status for ships carrying
-            /// dangerous goods (DG), harmful substances(HS) or marine pollutants(MP),
-            /// or IMO hazard or pollutant category A, wing in ground(WIG)
-            /// </summary>
-            ReservedForFutureAmendmentForWingInGround = 10,
-            /// <summary>
-            /// 11 = powerdriven vessel towing astern (regional use)
-            /// </summary>
-            PowerDrivenVesselTowingAstern = 11,
-            /// <summary>
-            /// 12 = power-driven vessel pushing ahead or towing alongside (regional use)
-            /// </summary>
-            PowerDrivenVesselPushingAheadOrTowingAlongside = 12,
-            /// <summary>
-            /// 13 = reserved for future use,
-            /// </summary>
-            ReservedForFutureUse = 13,
-            /// <summary>
-            /// 14 = AIS-SART (active), MOB-AIS, EPIRB-AIS
-            /// </summary>
-            AISSART = 14,
-            /// <summary>
-            /// 15 = undefined = default (also used by AIS-SART, MOB-AIS and EPIRB-AIS under test)
-            /// </summary>
-            Undefined = 15,
-        }
-
-        public enum SpecialManoeuvreIndicatorEnum
-        {
-            /// <summary>
-            /// 0 = not available = default
-            /// </summary>
-            NotAvailable = 0,
-            /// <summary>
-            /// 1 = not engaged in special manoeuvre
-            /// </summary>
-            NotEngagedInSpecialManoeuvre = 1,
-            /// <summary>
-            /// <para>2 = engaged in special manoeuvre</para>
-            /// <para>(i.e.regional passing arrangement on Inland Waterway)</para>
-            /// </summary>
-            EngagedInSpecialManoeuvre = 2,
-        }
-
-        public enum SyncStateEnum
-        {
-            /// <summary>
-            /// 0 = UTC direct 
-            /// </summary>
-            UTCDirect = 0,
-            /// <summary>
-            /// 1 = UTC indirect 
-            /// </summary>
-            UTCIndirect = 1,
-            /// <summary>
-            /// 2 = Station is synchronized to a base station
-            /// </summary>
-            SyncToBaseStation = 2,
-            /// <summary>
-            /// 3 = Station is synchronized to another station based on the highest number of received stations
-            /// </summary>
-            SyncToAnotherStation = 3,
+            courseOverGround12 |= (UInt16)(_bitVector120_167 & 0xF);
         }
     }
 }

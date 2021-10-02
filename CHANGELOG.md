@@ -8,9 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.0] - 2021-10-02
+[v0.2.0](https://github.com/TensionDev/AutomaticIdentificationSystem/releases/tag/v0.2.0)
+
 ### Added
+- Added Message 2: Position report (Assigned).
+- Added Message 3: Position report (Special).
+- Added Message 4: Base station report.
 - Added Message 18: Standard Class B equipment position report.
 - Added Message 24: Class B 'CS' static data.
+
+### Fixed
+- Fixed Message 1 default Latitude value. (0x3412140)
+- Fixed Message 1 default Longitude value. (0x6791AC0)
 
 
 ## [v0.1.0-alpha] - 2021-09-13

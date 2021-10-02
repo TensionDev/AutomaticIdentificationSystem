@@ -5,9 +5,9 @@ using System.Text;
 namespace TensionDev.Maritime.AIS
 {
     /// <summary>
-    /// Message 1: Position report (Scheduled)
+    /// Message 2: Position report (Assigned)
     /// </summary>
-    public class AISMessage01 : AISMessage
+    public class AISMessage02 : AISMessage
     {
         private UInt64 _bitVector0_59;
         private UInt64 _bitVector60_119;
@@ -176,9 +176,9 @@ namespace TensionDev.Maritime.AIS
         /// </summary>
         public SOTDMACommunicationState CommunicationState { get; set; }
 
-        public AISMessage01()
+        public AISMessage02()
         {
-            MessageId = 1;
+            MessageId = 2;
             RepeatIndicator = 0;
             NavigationalStatus = NavigationalStatusEnum.Undefined;
             rateOfTurn8 = -128;
