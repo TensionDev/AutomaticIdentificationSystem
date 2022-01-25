@@ -22,6 +22,7 @@ namespace XUnitTestProjectAIS
             Assert.NotNull(aisMessage);
             Assert.NotNull(aisMessage18);
             Assert.NotNull(communicationState);
+            Assert.Equal(AISMessage.SentenceFormatterEnum.VDM, aisMessage18.SentenceFormatter);
             Assert.Equal(18, aisMessage18.MessageId);
             Assert.Equal(0, aisMessage18.RepeatIndicator);
             Assert.Equal("338087471", aisMessage18.UserId);

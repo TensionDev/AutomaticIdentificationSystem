@@ -255,7 +255,7 @@ namespace TensionDev.Maritime.AIS
             StringBuilder stringBuilder = new StringBuilder();
             IList<String> payload = EncodePayloads();
 
-            stringBuilder.AppendFormat("!AIVDM,1,1,,B,{0},0", payload[0]);
+            stringBuilder.AppendFormat("!AI{0},1,1,,B,{1},0", SentenceFormatter.ToString(), payload[0]);
 
             Byte checksum = CalculateChecksum(stringBuilder.ToString());
 

@@ -20,6 +20,7 @@ namespace XUnitTestProjectAIS
 
             Assert.NotNull(aisMessage);
             Assert.NotNull(aisMessage24);
+            Assert.Equal(AISMessage.SentenceFormatterEnum.VDO, aisMessage24.SentenceFormatter);
             Assert.Equal(24, aisMessage24.MessageId);
             Assert.Equal(0, aisMessage24.RepeatIndicator);
             Assert.Equal("112233445", aisMessage24.UserId);
@@ -40,6 +41,7 @@ namespace XUnitTestProjectAIS
 
             Assert.NotNull(aisMessage);
             Assert.NotNull(aisMessage24);
+            Assert.Equal(AISMessage.SentenceFormatterEnum.VDO, aisMessage24.SentenceFormatter);
             Assert.Equal(24, aisMessage24.MessageId);
             Assert.Equal(0, aisMessage24.RepeatIndicator);
             Assert.Equal("112233445", aisMessage24.UserId);

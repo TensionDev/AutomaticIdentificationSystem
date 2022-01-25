@@ -10,6 +10,11 @@ namespace TensionDev.Maritime.AIS
 
         protected UInt16 messageId6;
         protected UInt16 repeatIndicator2;
+        
+        /// <summary>
+        /// Sentence Formatter
+        /// </summary>
+        public SentenceFormatterEnum SentenceFormatter { get; set; }
 
         /// <summary>
         /// Identifier for this Message
@@ -24,6 +29,7 @@ namespace TensionDev.Maritime.AIS
 
         protected AISMessage()
         {
+            SentenceFormatter = SentenceFormatterEnum.VDM;
         }
 
         /// <summary>
@@ -39,10 +45,11 @@ namespace TensionDev.Maritime.AIS
             IList<String> payloads = new List<String>();
             String messageId = "@";
             String sequenceId = String.Empty;
+            String sentenceIdentifier = String.Empty;
 
             foreach (String sentence in sentences)
             {
-                String sentenceIdentifier = sentence.Substring(3, 3);
+                sentenceIdentifier = sentence.Substring(3, 3);
                 if (sentenceIdentifier != "VDM" && sentenceIdentifier != "VDO")
                 {
                     throw new NotImplementedException("Sentence Identifier not recognised.");
@@ -109,6 +116,15 @@ namespace TensionDev.Maritime.AIS
 
                 default:
                     throw new NotImplementedException("Message Identifier not recognised.");
+            }
+
+            if (sentenceIdentifier == "VDM")
+            {
+                aisMessage.SentenceFormatter = SentenceFormatterEnum.VDM;
+            }
+            else if (sentenceIdentifier == "VDO")
+            {
+                aisMessage.SentenceFormatter = SentenceFormatterEnum.VDO;
             }
 
             aisMessage.DecodePayloads(payloads);
@@ -324,5 +340,17 @@ namespace TensionDev.Maritime.AIS
         /// </summary>
         /// <param name="payloads">AIS Payloads</param>
         protected abstract void DecodePayloads(IList<String> payloads);
+
+        public enum SentenceFormatterEnum
+        {
+            /// <summary>
+            /// UAIS VHF Data-link Message
+            /// </summary>
+            VDM,
+            /// <summary>
+            /// UAIS VHF Data-link Own-vessel report
+            /// </summary>
+            VDO,
+        }
     }
 }

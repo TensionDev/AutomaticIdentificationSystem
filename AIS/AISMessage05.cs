@@ -390,8 +390,8 @@ namespace TensionDev.Maritime.AIS
             StringBuilder stringBuilder2 = new StringBuilder();
             IList<String> payload = EncodePayloads();
 
-            stringBuilder.AppendFormat("!AIVDM,2,1,{0},A,{1},0", s_groupId, payload[0]);
-            stringBuilder2.AppendFormat("!AIVDM,2,2,{0},A,{1},0", s_groupId, payload[1]);
+            stringBuilder.AppendFormat("!AI{0},2,1,{1},A,{2},0", SentenceFormatter.ToString(), s_groupId, payload[0]);
+            stringBuilder2.AppendFormat("!AI{0},2,2,{1},A,{2},0", SentenceFormatter.ToString(), s_groupId, payload[1]);
 
             Byte checksum = CalculateChecksum(stringBuilder.ToString());
             Byte checksum2 = CalculateChecksum(stringBuilder2.ToString());
