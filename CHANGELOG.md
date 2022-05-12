@@ -8,6 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [v0.3.0] - 2022-05-12
+[v0.3.0](https://github.com/TensionDev/AutomaticIdentificationSystem/releases/tag/v0.3.0)
+
+### Added
+- Added Message 9: Standard search and rescue aircraft position report.
+- Added Message 10: Coordinated universal time and date inquiry.
+- Added Message 11: Coordinated universal time/date response.
+
+### Fixed
+- Fixed MMSI decoding.
+- Fixed Message 1 Rate of Turn decoding.
+- Fixed Message 2 Rate of Turn decoding.
+- Fixed Message 3 Rate of Turn decoding.
+
+
 ## [v0.2.1] - 2022-01-25
 [v0.2.1](https://github.com/TensionDev/AutomaticIdentificationSystem/releases/tag/v0.2.1)
 

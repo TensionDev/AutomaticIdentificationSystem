@@ -10,7 +10,7 @@ namespace TensionDev.Maritime.AIS
 
         protected UInt16 messageId6;
         protected UInt16 repeatIndicator2;
-        
+
         /// <summary>
         /// Sentence Formatter
         /// </summary>
@@ -104,6 +104,18 @@ namespace TensionDev.Maritime.AIS
 
                 case "5":
                     aisMessage = new AISMessage05();
+                    break;
+
+                case "9":
+                    aisMessage = new AISMessage09();
+                    break;
+
+                case ":":
+                    aisMessage = new AISMessage10();
+                    break;
+
+                case ";":
+                    aisMessage = new AISMessage11();
                     break;
 
                 case "B":

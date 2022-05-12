@@ -5,9 +5,9 @@ using System.Text;
 namespace TensionDev.Maritime.AIS
 {
     /// <summary>
-    /// Message 4: Base station report
+    /// Message 11: Coordinated universal time/date response
     /// </summary>
-    public class AISMessage04 : AISMessage
+    public class AISMessage11 : AISMessage
     {
         private UInt64 _bitVector0_59;
         private UInt64 _bitVector60_119;
@@ -133,9 +133,9 @@ namespace TensionDev.Maritime.AIS
         /// </summary>
         public SOTDMACommunicationState CommunicationState { get; set; }
 
-        public AISMessage04()
+        public AISMessage11()
         {
-            MessageId = 4;
+            MessageId = 11;
             RepeatIndicator = 0;
             utcYear14 = 0;
             utcMonth4 = 0;
@@ -197,7 +197,7 @@ namespace TensionDev.Maritime.AIS
             StringBuilder stringBuilder = new StringBuilder();
             IList<String> payload = EncodePayloads();
 
-            stringBuilder.AppendFormat("!AI{0},1,1,,A,{1},0", SentenceFormatter.ToString(), payload[0]);
+            stringBuilder.AppendFormat("!AIVDM,1,1,,A,{0},0", payload[0]);
 
             Byte checksum = CalculateChecksum(stringBuilder.ToString());
 

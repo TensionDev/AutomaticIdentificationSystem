@@ -582,7 +582,7 @@ namespace TensionDev.Maritime.AIS
             aisVersion2 = (UInt16)(_bitVector0_59 & 0x3);
             _bitVector0_59 >>= 2;
 
-            userId30 = (UInt32)(_bitVector0_59 & 0x7FFFFFFF);
+            userId30 = (UInt32)(_bitVector0_59 & 0x3FFFFFFF);
             _bitVector0_59 >>= 30;
 
             repeatIndicator2 = (UInt16)(_bitVector0_59 & 0x3);

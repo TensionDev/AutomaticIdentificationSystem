@@ -5,7 +5,7 @@ using System.Text;
 namespace TensionDev.Maritime.AIS
 {
     /// <summary>
-    /// Message 2: Position report (Special)
+    /// Message 3: Position report (Special)
     /// </summary>
     public class AISMessage03 : AISMessage
     {
@@ -503,14 +503,14 @@ namespace TensionDev.Maritime.AIS
             rateOfTurn8 = (Int16)(_bitVector0_59 & 0xFF);
             if (rateOfTurn8 > 0x7F)
             {
-                rateOfTurn8 -= 0xFF;
+                rateOfTurn8 -= 0x100;
             }
             _bitVector0_59 >>= 8;
 
             navigationalStatus4 = (UInt16)(_bitVector0_59 & 0xF);
             _bitVector0_59 >>= 4;
 
-            userId30 = (UInt32)(_bitVector0_59 & 0x7FFFFFFF);
+            userId30 = (UInt32)(_bitVector0_59 & 0x3FFFFFFF);
             _bitVector0_59 >>= 30;
 
             repeatIndicator2 = (UInt16)(_bitVector0_59 & 0x3);
