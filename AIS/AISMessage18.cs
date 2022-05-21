@@ -147,8 +147,8 @@ namespace TensionDev.Maritime.AIS
             regionalLocalApplications8 = 0;
             speedOverGround10 = 1023;
             positionAccuracy1 = false;
-            longitude28 = 181;
-            latitude27 = 91;
+            longitude28 = 0x6791AC0;
+            latitude27 = 0x3412140;
             courseOverGround12 = 3600;
             trueHeading9 = 511;
             timestamp6 = 60;
@@ -322,7 +322,7 @@ namespace TensionDev.Maritime.AIS
             _bitVector0_59 <<= 1;
             if (positionAccuracy1)
             {
-                _bitVector60_119 |= 1;
+                _bitVector0_59 |= 1;
             }
 
             if (longitude28 < 0)

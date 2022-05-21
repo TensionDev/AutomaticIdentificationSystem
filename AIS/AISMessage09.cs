@@ -120,8 +120,8 @@ namespace TensionDev.Maritime.AIS
         public Boolean DTE { get => dataTerminalEquipment1 == 0; set { if (value) { dataTerminalEquipment1 = 0; } else { dataTerminalEquipment1 = 1; } } }
 
         /// <summary>
-        /// <para>0 = GNSS</para>
-        /// <para>1 = barometric source</para>
+        /// <para>0 = Station operating in autonomous and continuous mode = default</para>
+        /// <para>1 = Station operating in assigned mode</para>
         /// </summary>
         public AssignedModeEnum AssignedModeFlag { get => (AssignedModeEnum)(assignedModeFlag1); set => assignedModeFlag1 = (UInt16)value; }
 
@@ -244,7 +244,7 @@ namespace TensionDev.Maritime.AIS
             StringBuilder stringBuilder = new StringBuilder();
             IList<String> payload = EncodePayloads();
 
-            stringBuilder.AppendFormat("!AIVDM,1,1,,A,{0},0", payload[0]);
+            stringBuilder.AppendFormat("!AI{0},1,1,,A,{1},0", SentenceFormatter.ToString(), payload[0]);
 
             Byte checksum = CalculateChecksum(stringBuilder.ToString());
 

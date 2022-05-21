@@ -98,19 +98,19 @@ namespace TensionDev.Maritime.AIS
                             name0_59 += Convert.ToUInt64(value[i]);
                         }
                     }
-                    for (Int32 j = 10; j < 20; ++j)
+                }
+                for (Int32 i = 10; i < 20; ++i)
+                {
+                    name60_119 <<= 6;
+                    if (i < value.Length)
                     {
-                        name60_119 <<= 6;
-                        if (j < value.Length)
+                        if (Convert.ToUInt64(value[i]) >= 64L)
                         {
-                            if (Convert.ToUInt64(value[j]) >= 64L)
-                            {
-                                name60_119 += Convert.ToUInt64(value[j]) - 64L;
-                            }
-                            else
-                            {
-                                name60_119 += Convert.ToUInt64(value[j]);
-                            }
+                            name60_119 += Convert.ToUInt64(value[i]) - 64L;
+                        }
+                        else
+                        {
+                            name60_119 += Convert.ToUInt64(value[i]);
                         }
                     }
                 }
@@ -461,6 +461,8 @@ namespace TensionDev.Maritime.AIS
 
         private void GetBitVector0_59()
         {
+            _bitVector0_59 = 0;
+
             _bitVector0_59 = messageId6;
 
             _bitVector0_59 <<= 2;
@@ -489,6 +491,8 @@ namespace TensionDev.Maritime.AIS
 
         private void GetBitVector60_119()
         {
+            _bitVector60_119 = 0;
+
             if (partNumber2 == 0)
             {
                 _bitVector60_119 <<= 40;
@@ -509,6 +513,8 @@ namespace TensionDev.Maritime.AIS
 
         private void GetBitVector120_167()
         {
+            _bitVector120_167 = 0;
+
             if (partNumber2 == 0)
             {
                 _bitVector120_167 <<= 40;

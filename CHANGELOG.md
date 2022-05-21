@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [v0.4.0] - 2022-05-22
+[v0.4.0](https://github.com/TensionDev/AutomaticIdentificationSystem/releases/tag/v0.4.0)
+
+### Added
+- Added Message 7: Binary acknowledge.
+- Added Message 13: Safety related acknowledge.
+- Added Message 19: Extended class B equipment position report.
+
+### Fixed
+- Fixed Message 9 Assigned Mode Flag documentation.
+- Fixed Message 9 Sentence Formatter encoding.
+- Fixed Message 10 Sentence Formatter encoding.
+- Fixed Message 11 Sentence Formatter encoding.
+- Fixed Message 18 default Latitude value. (0x3412140)
+- Fixed Message 18 default Longitude value. (0x6791AC0)
+- Fixed Message 24 Name encoding and decoding.
+
+
 ## [v0.3.0] - 2022-05-12
 [v0.3.0](https://github.com/TensionDev/AutomaticIdentificationSystem/releases/tag/v0.3.0)
 

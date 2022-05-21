@@ -391,7 +391,7 @@ namespace TensionDev.Maritime.AIS
             IList<String> payload = EncodePayloads();
 
             stringBuilder.AppendFormat("!AI{0},2,1,{1},A,{2},0", SentenceFormatter.ToString(), s_groupId, payload[0]);
-            stringBuilder2.AppendFormat("!AI{0},2,2,{1},A,{2},0", SentenceFormatter.ToString(), s_groupId, payload[1]);
+            stringBuilder2.AppendFormat("!AI{0},2,2,{1},A,{2},2", SentenceFormatter.ToString(), s_groupId, payload[1]);
 
             Byte checksum = CalculateChecksum(stringBuilder.ToString());
             Byte checksum2 = CalculateChecksum(stringBuilder2.ToString());
@@ -470,6 +470,8 @@ namespace TensionDev.Maritime.AIS
 
         private void GetBitVector0_59()
         {
+            _bitVector0_59 = 0;
+
             _bitVector0_59 = messageId6;
 
             _bitVector0_59 <<= 2;
@@ -487,6 +489,8 @@ namespace TensionDev.Maritime.AIS
 
         private void GetBitVector60_119()
         {
+            _bitVector60_119 = 0;
+
             _bitVector60_119 = GetBitVector((UInt64)imoNumber30, 10);
 
             _bitVector60_119 <<= 42;
@@ -498,6 +502,8 @@ namespace TensionDev.Maritime.AIS
 
         private void GetBitVector120_179()
         {
+            _bitVector120_179 = 0;
+
             _bitVector120_179 = GetBitVector((UInt64)name0_59, 52);
 
             _bitVector120_179 <<= 8;
@@ -506,6 +512,8 @@ namespace TensionDev.Maritime.AIS
 
         private void GetBitVector180_239()
         {
+            _bitVector180_239 = 0;
+
             _bitVector180_239 = GetBitVector((UInt64)name60_119, 52);
 
             _bitVector180_239 <<= 8;
@@ -514,6 +522,8 @@ namespace TensionDev.Maritime.AIS
 
         private void GetBitVector240_299()
         {
+            _bitVector240_299 = 0;
+
             _bitVector240_299 = dimensionToBow9;
 
             _bitVector240_299 <<= 9;
@@ -546,6 +556,8 @@ namespace TensionDev.Maritime.AIS
 
         private void GetBitVector300_359()
         {
+            _bitVector300_359 = 0;
+
             _bitVector300_359 = GetBitVector((UInt64)maxPresentStaticDraught8, 2);
 
             _bitVector300_359 <<= 58;
@@ -554,6 +566,8 @@ namespace TensionDev.Maritime.AIS
 
         private void GetBitVector360_419()
         {
+            _bitVector360_419 = 0;
+
             _bitVector360_419 = GetBitVector((UInt64)destination0_59, 2);
 
             _bitVector360_419 <<= 58;
@@ -562,6 +576,8 @@ namespace TensionDev.Maritime.AIS
 
         private void GetBitVector420_423()
         {
+            _bitVector420_423 = 0;
+
             _bitVector420_423 = GetBitVector((UInt64)destination60_119, 2);
 
             _bitVector420_423 <<= 1;

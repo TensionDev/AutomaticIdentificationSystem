@@ -106,6 +106,10 @@ namespace TensionDev.Maritime.AIS
                     aisMessage = new AISMessage05();
                     break;
 
+                case "7":
+                    aisMessage = new AISMessage07();
+                    break;
+
                 case "9":
                     aisMessage = new AISMessage09();
                     break;
@@ -118,8 +122,16 @@ namespace TensionDev.Maritime.AIS
                     aisMessage = new AISMessage11();
                     break;
 
+                case "=":
+                    aisMessage = new AISMessage13();
+                    break;
+
                 case "B":
                     aisMessage = new AISMessage18();
+                    break;
+
+                case "C":
+                    aisMessage = new AISMessage19();
                     break;
 
                 case "H":
