@@ -14,8 +14,7 @@ namespace XUnitTestProjectAIS
         {
             IList<String> sentences = new List<String>()
             {
-                "!AIVDM,2,1,0,B,C5N3SRgPEnJGEBT>NhWAwwo862PaLELTBJ:V00000000S0D:R2,0*3A",
-                "!AIVDM,2,2,0,B,20,0*17"
+                "!AIVDM,1,1,,B,C5N3SRgPEnJGEBT>NhWAwwo862PaLELTBJ:V00000000S0D:R220,0*0B"
             };
 
             AISMessage aisMessage = AISMessage.DecodeSentences(sentences);

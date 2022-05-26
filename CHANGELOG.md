@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.1] - 2022-05-26
+[v0.4.1](https://github.com/TensionDev/AutomaticIdentificationSystem/releases/tag/v0.4.1)
+
+### Fixed
+- Fixed Message 19 encoding and decoding.
+
 
 ## [v0.4.0] - 2022-05-22
 [v0.4.0](https://github.com/TensionDev/AutomaticIdentificationSystem/releases/tag/v0.4.0)

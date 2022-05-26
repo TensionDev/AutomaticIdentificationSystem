@@ -397,34 +397,25 @@ namespace TensionDev.Maritime.AIS
             IList<String> sentences = new List<String>();
 
             StringBuilder stringBuilder = new StringBuilder();
-            StringBuilder stringBuilder2 = new StringBuilder();
             IList<String> payload = EncodePayloads();
 
-            stringBuilder.AppendFormat("!AI{0},2,1,{1},B,{2},0", SentenceFormatter.ToString(), s_groupId, payload[0]);
-            stringBuilder2.AppendFormat("!AI{0},2,2,{1},B,{2},0", SentenceFormatter.ToString(), s_groupId, payload[1]);
+            stringBuilder.AppendFormat("!AI{0},1,1,,B,{1},0", SentenceFormatter.ToString(), payload[0]);
 
             Byte checksum = CalculateChecksum(stringBuilder.ToString());
-            Byte checksum2 = CalculateChecksum(stringBuilder2.ToString());
 
             stringBuilder.AppendFormat("*{0}\r\n", checksum.ToString("X2"));
-            stringBuilder2.AppendFormat("*{0}\r\n", checksum2.ToString("X2"));
 
             sentences.Add(stringBuilder.ToString());
-            sentences.Add(stringBuilder2.ToString());
-
-            ++s_groupId;
-            if (s_groupId > 9)
-                s_groupId = 0;
 
             return sentences;
         }
 
         protected override void DecodePayloads(IList<String> payloads)
         {
-            if (payloads.Count != 2)
+            if (payloads.Count != 1)
                 throw new ArgumentOutOfRangeException(nameof(payloads));
 
-            String payload = payloads[0] + payloads[1];
+            String payload = payloads[0];
 
             _bitVector0_59 = DecodePayload(payload, 0, 10);
             _bitVector60_119 = DecodePayload(payload, 10, 10);
@@ -447,7 +438,6 @@ namespace TensionDev.Maritime.AIS
             IList<String> payloads = new List<String>();
 
             StringBuilder payload = new StringBuilder();
-            StringBuilder payload2 = new StringBuilder();
 
             GetBitVector0_59();
             GetBitVector60_119();
@@ -461,11 +451,9 @@ namespace TensionDev.Maritime.AIS
             payload.Append(EncodePayload(_bitVector120_179, 60));
             payload.Append(EncodePayload(_bitVector180_239, 60));
             payload.Append(EncodePayload(_bitVector240_299, 60));
-
-            payload2.Append(EncodePayload(_bitVector300_311, 12));
+            payload.Append(EncodePayload(_bitVector300_311, 12));
 
             payloads.Add(payload.ToString());
-            payloads.Add(payload2.ToString());
 
             return payloads;
         }
