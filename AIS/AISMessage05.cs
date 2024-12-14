@@ -497,24 +497,24 @@ namespace TensionDev.Maritime.AIS
             _bitVector60_119 |= callSign42;
 
             _bitVector60_119 <<= 8;
-            _bitVector60_119 |= GetBitVector((UInt64)name0_59, 60, 52);
+            _bitVector60_119 |= GetBitVector(name0_59, 60, 52);
         }
 
         private void GetBitVector120_179()
         {
             _bitVector120_179 = 0;
 
-            _bitVector120_179 = GetBitVector((UInt64)name0_59, 52);
+            _bitVector120_179 = GetBitVector(name0_59, 52);
 
             _bitVector120_179 <<= 8;
-            _bitVector120_179 |= GetBitVector((UInt64)name60_119, 60, 52);
+            _bitVector120_179 |= GetBitVector(name60_119, 60, 52);
         }
 
         private void GetBitVector180_239()
         {
             _bitVector180_239 = 0;
 
-            _bitVector180_239 = GetBitVector((UInt64)name60_119, 52);
+            _bitVector180_239 = GetBitVector(name60_119, 52);
 
             _bitVector180_239 <<= 8;
             _bitVector180_239 |= shipAndCargoType8;
@@ -561,24 +561,24 @@ namespace TensionDev.Maritime.AIS
             _bitVector300_359 = GetBitVector((UInt64)maxPresentStaticDraught8, 2);
 
             _bitVector300_359 <<= 58;
-            _bitVector300_359 |= GetBitVector((UInt64)destination0_59, 60, 2);
+            _bitVector300_359 |= GetBitVector(destination0_59, 60, 2);
         }
 
         private void GetBitVector360_419()
         {
             _bitVector360_419 = 0;
 
-            _bitVector360_419 = GetBitVector((UInt64)destination0_59, 2);
+            _bitVector360_419 = GetBitVector(destination0_59, 2);
 
             _bitVector360_419 <<= 58;
-            _bitVector360_419 |= GetBitVector((UInt64)destination60_119, 60, 2);
+            _bitVector360_419 |= GetBitVector(destination60_119, 60, 2);
         }
 
         private void GetBitVector420_423()
         {
             _bitVector420_423 = 0;
 
-            _bitVector420_423 = GetBitVector((UInt64)destination60_119, 2);
+            _bitVector420_423 = GetBitVector(destination60_119, 2);
 
             _bitVector420_423 <<= 1;
             _bitVector420_423 |= dataTerminalEquipment1;
@@ -610,11 +610,11 @@ namespace TensionDev.Maritime.AIS
 
         private void SetBitVector60_119()
         {
-            name0_59 = (UInt64)(_bitVector60_119 & 0xFF);
+            name0_59 = _bitVector60_119 & 0xFF;
             name0_59 <<= 52;
             _bitVector60_119 >>= 8;
 
-            callSign42 = (UInt64)(_bitVector60_119 & 0x3FFFFFFFFFF);
+            callSign42 = _bitVector60_119 & 0x3FFFFFFFFFF;
             _bitVector60_119 >>= 42;
 
             imoNumber30 |= (UInt32)(_bitVector60_119 & 0x3FF);
@@ -623,11 +623,11 @@ namespace TensionDev.Maritime.AIS
 
         private void SetBitVector120_179()
         {
-            name60_119 = (UInt64)(_bitVector120_179 & 0xFF);
+            name60_119 = _bitVector120_179 & 0xFF;
             name60_119 <<= 52;
             _bitVector120_179 >>= 8;
 
-            name0_59 |= (UInt64)(_bitVector120_179 & 0xFFFFFFFFFFFFF);
+            name0_59 |= _bitVector120_179 & 0xFFFFFFFFFFFFF;
             _bitVector120_179 >>= 52;
         }
 
@@ -636,7 +636,7 @@ namespace TensionDev.Maritime.AIS
             shipAndCargoType8 = (UInt16)(_bitVector180_239 & 0xFF);
             _bitVector180_239 >>= 8;
 
-            name60_119 |= (UInt64)(_bitVector180_239 & 0xFFFFFFFFFFFFF);
+            name60_119 |= _bitVector180_239 & 0xFFFFFFFFFFFFF;
             _bitVector180_239 >>= 52;
         }
 
@@ -676,7 +676,7 @@ namespace TensionDev.Maritime.AIS
 
         private void SetBitVector300_359()
         {
-            destination0_59 = (UInt64)(_bitVector300_359 & 0x3FFFFFFFFFFFFFF);
+            destination0_59 = _bitVector300_359 & 0x3FFFFFFFFFFFFFF;
             destination0_59 <<= 2;
             _bitVector300_359 >>= 58;
 
@@ -686,11 +686,11 @@ namespace TensionDev.Maritime.AIS
 
         private void SetBitVector360_419()
         {
-            destination60_119 = (UInt64)(_bitVector360_419 & 0x3FFFFFFFFFFFFFF);
+            destination60_119 = _bitVector360_419 & 0x3FFFFFFFFFFFFFF;
             destination60_119 <<= 2;
             _bitVector360_419 >>= 58;
 
-            destination0_59 |= (UInt64)(_bitVector360_419 & 0x3);
+            destination0_59 |= _bitVector360_419 & 0x3;
             _bitVector360_419 >>= 2;
         }
 
@@ -704,7 +704,7 @@ namespace TensionDev.Maritime.AIS
             dataTerminalEquipment1 = (UInt16)(_bitVector420_423 & 0x1);
             _bitVector420_423 >>= 1;
 
-            destination60_119 |= (UInt64)(_bitVector420_423 & 0x3);
+            destination60_119 |= _bitVector420_423 & 0x3;
             _bitVector420_423 >>= 2;
         }
 

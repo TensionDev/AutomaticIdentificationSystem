@@ -327,7 +327,7 @@ namespace TensionDev.Maritime.AIS
 
             if (longitude28 < 0)
             {
-                UInt64 tempLongitude = (UInt64)(longitude28 + (Int32)0xFFFFFFF);
+                UInt64 tempLongitude = (UInt64)(longitude28 + 0xFFFFFFF);
 
                 _bitVector0_59 <<= 3;
                 _bitVector0_59 |= GetBitVector(tempLongitude, 28, 25);
@@ -345,9 +345,9 @@ namespace TensionDev.Maritime.AIS
 
             if (longitude28 < 0)
             {
-                UInt64 tempLongitude = (UInt64)(longitude28 + (Int32)0xFFFFFFF);
+                UInt64 tempLongitude = (UInt64)(longitude28 + 0xFFFFFFF);
 
-                _bitVector60_119 = GetBitVector((UInt64)tempLongitude, 25);
+                _bitVector60_119 = GetBitVector(tempLongitude, 25);
             }
             else
             {
@@ -356,7 +356,7 @@ namespace TensionDev.Maritime.AIS
 
             if (latitude27 < 0)
             {
-                UInt64 tempLatitude = (UInt64)(latitude27 + (Int32)0x7FFFFFF);
+                UInt64 tempLatitude = (UInt64)(latitude27 + 0x7FFFFFF);
 
                 _bitVector60_119 <<= 27;
                 _bitVector60_119 |= tempLatitude;
@@ -364,7 +364,7 @@ namespace TensionDev.Maritime.AIS
             else
             {
                 _bitVector60_119 <<= 27;
-                _bitVector60_119 |= (UInt64)((UInt32)latitude27);
+                _bitVector60_119 |= (UInt32)latitude27;
             }
 
             _bitVector60_119 <<= 8;

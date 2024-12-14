@@ -477,7 +477,7 @@ namespace TensionDev.Maritime.AIS
             if (partNumber2 == 0)
             {
                 _bitVector0_59 <<= 20;
-                _bitVector0_59 |= GetBitVector((UInt64)name0_59, 60, 40);
+                _bitVector0_59 |= GetBitVector(name0_59, 60, 40);
             }
             else
             {
@@ -485,7 +485,7 @@ namespace TensionDev.Maritime.AIS
                 _bitVector0_59 |= shipAndCargoType8;
 
                 _bitVector0_59 <<= 12;
-                _bitVector0_59 |= GetBitVector((UInt64)vendorId42, 42, 30);
+                _bitVector0_59 |= GetBitVector(vendorId42, 42, 30);
             }
         }
 
@@ -496,18 +496,18 @@ namespace TensionDev.Maritime.AIS
             if (partNumber2 == 0)
             {
                 _bitVector60_119 <<= 40;
-                _bitVector60_119 |= GetBitVector((UInt64)name0_59, 40);
+                _bitVector60_119 |= GetBitVector(name0_59, 40);
 
                 _bitVector60_119 <<= 20;
-                _bitVector60_119 |= GetBitVector((UInt64)name60_119, 60, 40);
+                _bitVector60_119 |= GetBitVector(name60_119, 60, 40);
             }
             else
             {
                 _bitVector60_119 <<= 30;
-                _bitVector60_119 |= GetBitVector((UInt64)vendorId42, 30);
+                _bitVector60_119 |= GetBitVector(vendorId42, 30);
 
                 _bitVector60_119 <<= 30;
-                _bitVector60_119 |= GetBitVector((UInt64)callSign42, 42, 12);
+                _bitVector60_119 |= GetBitVector(callSign42, 42, 12);
             }
         }
 
@@ -518,14 +518,14 @@ namespace TensionDev.Maritime.AIS
             if (partNumber2 == 0)
             {
                 _bitVector120_167 <<= 40;
-                _bitVector120_167 |= GetBitVector((UInt64)name60_119, 40);
+                _bitVector120_167 |= GetBitVector(name60_119, 40);
 
                 _bitVector120_167 <<= 2;
             }
             else
             {
                 _bitVector120_167 <<= 12;
-                _bitVector120_167 |= GetBitVector((UInt64)callSign42, 12);
+                _bitVector120_167 |= GetBitVector(callSign42, 12);
 
                 _bitVector120_167 <<= 9;
                 _bitVector120_167 |= dimensionToBow9;
@@ -549,7 +549,7 @@ namespace TensionDev.Maritime.AIS
 
         private void SetBitVector0_59()
         {
-            UInt64 temp = (UInt64)(_bitVector0_59 & 0xFFFFF);
+            UInt64 temp = _bitVector0_59 & 0xFFFFF;
             _bitVector0_59 >>= 20;
 
             partNumber2 = (UInt16)(_bitVector0_59 & 0x3);
@@ -583,20 +583,20 @@ namespace TensionDev.Maritime.AIS
         {
             if (partNumber2 == 0)
             {
-                name60_119 = (UInt64)(_bitVector60_119 & 0xFFFFF);
+                name60_119 = _bitVector60_119 & 0xFFFFF;
                 name60_119 <<= 40;
                 _bitVector60_119 >>= 20;
 
-                name0_59 |= (UInt64)(_bitVector60_119 & 0xFFFFFFFFFF);
+                name0_59 |= _bitVector60_119 & 0xFFFFFFFFFF;
                 _bitVector60_119 >>= 20;
             }
             else
             {
-                callSign42 = (UInt64)(_bitVector60_119 & 0x3FFFFFFF);
+                callSign42 = _bitVector60_119 & 0x3FFFFFFF;
                 callSign42 <<= 12;
                 _bitVector60_119 >>= 30;
 
-                vendorId42 |= (UInt64)(_bitVector60_119 & 0x3FFFFFFF);
+                vendorId42 |= _bitVector60_119 & 0x3FFFFFFF;
                 _bitVector60_119 >>= 30;
             }
         }
@@ -607,7 +607,7 @@ namespace TensionDev.Maritime.AIS
             {
                 _bitVector120_167 >>= 2;
 
-                name60_119 |= (UInt64)(_bitVector120_167 & 0xFFFFFFFFFF);
+                name60_119 |= _bitVector120_167 & 0xFFFFFFFFFF;
                 _bitVector120_167 >>= 40;
             }
             else
@@ -630,7 +630,7 @@ namespace TensionDev.Maritime.AIS
                 dimensionToBow9 = (UInt16)(_bitVector120_167 & 0x1FF);
                 _bitVector120_167 >>= 9;
 
-                callSign42 |= (UInt64)(_bitVector120_167 & 0xFFF);
+                callSign42 |= _bitVector120_167 & 0xFFF;
                 _bitVector120_167 >>= 12;
             }
         }

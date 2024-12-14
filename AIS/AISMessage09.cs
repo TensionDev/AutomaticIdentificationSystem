@@ -38,7 +38,7 @@ namespace TensionDev.Maritime.AIS
         /// <para>Altitude (derived from GNSS or barometric (see altitude sensor parameter below)) (m) (0 - 4094 m)</para>
         /// 4095 = not available, 4094 = 4094 m or higher
         /// </summary>
-        public UInt16 Altitude { get => altitude12; set => altitude12 = (UInt16)Math.Min((UInt16)4095, value); }
+        public UInt16 Altitude { get => altitude12; set => altitude12 = Math.Min((UInt16)4095, value); }
 
         /// <summary>
         /// Is the Speed Over Ground Available?
@@ -320,7 +320,7 @@ namespace TensionDev.Maritime.AIS
 
             if (longitude28 < 0)
             {
-                UInt64 tempLongitude = (UInt64)(longitude28 + (Int32)0xFFFFFFF);
+                UInt64 tempLongitude = (UInt64)(longitude28 + 0xFFFFFFF);
 
                 _bitVector60_119 <<= 28;
                 _bitVector60_119 |= tempLongitude;
@@ -328,12 +328,12 @@ namespace TensionDev.Maritime.AIS
             else
             {
                 _bitVector60_119 <<= 28;
-                _bitVector60_119 |= (UInt64)((UInt32)longitude28);
+                _bitVector60_119 |= (UInt32)longitude28;
             }
 
             if (latitude27 < 0)
             {
-                UInt64 tempLatitude = (UInt64)(latitude27 + (Int32)0x7FFFFFF);
+                UInt64 tempLatitude = (UInt64)(latitude27 + 0x7FFFFFF);
 
                 _bitVector60_119 <<= 27;
                 _bitVector60_119 |= tempLatitude;
@@ -341,7 +341,7 @@ namespace TensionDev.Maritime.AIS
             else
             {
                 _bitVector60_119 <<= 27;
-                _bitVector60_119 |= (UInt64)((UInt32)latitude27);
+                _bitVector60_119 |= (UInt32)latitude27;
             }
 
             _bitVector60_119 <<= 4;

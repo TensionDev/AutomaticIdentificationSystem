@@ -6,7 +6,7 @@ namespace TensionDev.Maritime.AIS
 {
     public abstract class AISMessage
     {
-        private protected static UInt16 s_groupId = 0;
+        protected UInt16 s_groupId = 0;
 
         protected UInt16 messageId6;
         protected UInt16 repeatIndicator2;
@@ -55,7 +55,7 @@ namespace TensionDev.Maritime.AIS
                     throw new NotImplementedException("Sentence Identifier not recognised.");
                 }
 
-                String[] vs = sentence.Split(new char[] { ',', '*' });
+                String[] vs = sentence.Split(',', '*' );
 
                 // Ensure sentences count is equal to sentence fragment count.
                 if (vs[1] != sentences.Count.ToString())
@@ -82,8 +82,31 @@ namespace TensionDev.Maritime.AIS
                 payloads.Add(vs[5]);
             }
 
-            AISMessage aisMessage;
+            AISMessage aisMessage = CreateAISMessage(messageId);
 
+            if (sentenceIdentifier == "VDM")
+            {
+                aisMessage.SentenceFormatter = SentenceFormatterEnum.VDM;
+            }
+            else if (sentenceIdentifier == "VDO")
+            {
+                aisMessage.SentenceFormatter = SentenceFormatterEnum.VDO;
+            }
+
+            aisMessage.DecodePayloads(payloads);
+
+            return aisMessage;
+        }
+
+        /// <summary>
+        /// Creates an AIS Message Object based on encoded message ID
+        /// </summary>
+        /// <param name="messageId">Encoded Message ID</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        private static AISMessage CreateAISMessage(string messageId)
+        {
+            AISMessage aisMessage;
             switch (messageId)
             {
                 case "1":
@@ -142,17 +165,6 @@ namespace TensionDev.Maritime.AIS
                     throw new NotImplementedException("Message Identifier not recognised.");
             }
 
-            if (sentenceIdentifier == "VDM")
-            {
-                aisMessage.SentenceFormatter = SentenceFormatterEnum.VDM;
-            }
-            else if (sentenceIdentifier == "VDO")
-            {
-                aisMessage.SentenceFormatter = SentenceFormatterEnum.VDO;
-            }
-
-            aisMessage.DecodePayloads(payloads);
-
             return aisMessage;
         }
 
@@ -162,7 +174,7 @@ namespace TensionDev.Maritime.AIS
         /// <param name="value">The Value to get the bitvector from</param>
         /// <param name="bitcount">The end index of the bits required</param>
         /// <returns>The bitvector containing the required number of bits</returns>
-        public UInt64 GetBitVector(Int64 value, Int32 bitcount)
+        public static UInt64 GetBitVector(Int64 value, Int32 bitcount)
         {
             UInt64 bv = 0;
             Int64 mask;
@@ -184,7 +196,7 @@ namespace TensionDev.Maritime.AIS
         /// <param name="bitcount">The end index of the bits required</param>
         /// <param name="startindex">The start index of the bits required</param>
         /// <returns>The bitvector containing the required number of bits</returns>
-        public UInt64 GetBitVector(Int64 value, Int32 bitcount, Int32 startindex)
+        public static UInt64 GetBitVector(Int64 value, Int32 bitcount, Int32 startindex)
         {
             UInt64 bv = 0;
             Int64 mask;
@@ -204,7 +216,7 @@ namespace TensionDev.Maritime.AIS
         /// <param name="value">The Value to get the bitvector from</param>
         /// <param name="bitcount">The end index of the bits required</param>
         /// <returns>The bitvector containing the required number of bits</returns>
-        public UInt64 GetBitVector(UInt64 value, Int32 bitcount)
+        public static UInt64 GetBitVector(UInt64 value, Int32 bitcount)
         {
             UInt64 bv = 0;
             UInt64 mask;
@@ -212,7 +224,7 @@ namespace TensionDev.Maritime.AIS
             for (Int32 i = 0; i < bitcount; i++)
             {
                 mask = (UInt64)Math.Pow(2, i);
-                bv = (UInt64)(mask & value) | bv;
+                bv = (mask & value) | bv;
             }
 
             return bv;
@@ -226,7 +238,7 @@ namespace TensionDev.Maritime.AIS
         /// <param name="bitcount">The end index of the bits required</param>
         /// <param name="startindex">The start index of the bits required</param>
         /// <returns>The bitvector containing the required number of bits</returns>
-        public UInt64 GetBitVector(UInt64 value, Int32 bitcount, Int32 startindex)
+        public static UInt64 GetBitVector(UInt64 value, Int32 bitcount, Int32 startindex)
         {
             UInt64 bv = 0;
             UInt64 mask;
@@ -234,7 +246,7 @@ namespace TensionDev.Maritime.AIS
             for (Int32 i = startindex; i < bitcount; i++)
             {
                 mask = (UInt64)Math.Pow(2, i);
-                bv = (UInt64)(mask & value) | bv;
+                bv = (mask & value) | bv;
             }
 
             bv >>= startindex;
@@ -273,7 +285,7 @@ namespace TensionDev.Maritime.AIS
             return EncodePayload(bitvector / 64, bitsleft - 6) + symbol;
         }
 
-        public UInt64 DecodePayload(String payload, Int32 startIndex, Int32 length)
+        public static UInt64 DecodePayload(String payload, Int32 startIndex, Int32 length)
         {
             if (length > 10)
             {
@@ -304,7 +316,7 @@ namespace TensionDev.Maritime.AIS
         /// </summary>
         /// <param name="sentence">The NMEA 0183 sentence to be computed, inclusive of the start delimiter "!" and just before the checksum delimiter "*"</param>
         /// <returns>The 8-bit XOR value.</returns>
-        protected Byte CalculateChecksum(String sentence)
+        protected static Byte CalculateChecksum(String sentence)
         {
             Byte checksum = 0b0;
             Byte[] data = Encoding.ASCII.GetBytes(sentence.Substring(1));

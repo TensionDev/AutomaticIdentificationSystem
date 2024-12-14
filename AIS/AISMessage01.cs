@@ -413,7 +413,7 @@ namespace TensionDev.Maritime.AIS
 
             if (rateOfTurn8 < 0)
             {
-                UInt64 tempRateOfTurn = (UInt64)(rateOfTurn8 + (Int32)0xFF);
+                UInt64 tempRateOfTurn = (UInt64)(rateOfTurn8 + 0xFF);
 
                 _bitVector0_59 <<= 8;
                 _bitVector0_59 |= tempRateOfTurn;
@@ -421,7 +421,7 @@ namespace TensionDev.Maritime.AIS
             else
             {
                 _bitVector0_59 <<= 8;
-                _bitVector0_59 |= (UInt64)((UInt16)rateOfTurn8);
+                _bitVector0_59 |= (UInt16)rateOfTurn8;
             }
 
             _bitVector0_59 <<= 10;
@@ -439,7 +439,7 @@ namespace TensionDev.Maritime.AIS
 
             if (longitude28 < 0)
             {
-                UInt64 tempLongitude = (UInt64)(longitude28 + (Int32)0xFFFFFFF);
+                UInt64 tempLongitude = (UInt64)(longitude28 + 0xFFFFFFF);
 
                 _bitVector60_119 <<= 28;
                 _bitVector60_119 |= tempLongitude;
@@ -447,12 +447,12 @@ namespace TensionDev.Maritime.AIS
             else
             {
                 _bitVector60_119 <<= 28;
-                _bitVector60_119 |= (UInt64)((UInt32)longitude28);
+                _bitVector60_119 |= (UInt32)longitude28;
             }
 
             if (latitude27 < 0)
             {
-                UInt64 tempLatitude = (UInt64)(latitude27 + (Int32)0x7FFFFFF);
+                UInt64 tempLatitude = (UInt64)(latitude27 + 0x7FFFFFF);
 
                 _bitVector60_119 <<= 27;
                 _bitVector60_119 |= tempLatitude;
@@ -460,7 +460,7 @@ namespace TensionDev.Maritime.AIS
             else
             {
                 _bitVector60_119 <<= 27;
-                _bitVector60_119 |= (UInt64)((UInt32)latitude27);
+                _bitVector60_119 |= (UInt32)latitude27;
             }
 
             _bitVector60_119 <<= 4;

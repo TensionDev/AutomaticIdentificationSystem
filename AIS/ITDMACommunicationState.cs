@@ -14,7 +14,7 @@ namespace TensionDev.Maritime.AIS
         /// <summary>
         /// Offset to next slot to be used, or zero (0) if no more transmissions
         /// </summary>
-        public Int16 SlotIncrement { get => (Int16)communicationState19[_slotIncrement13]; set => communicationState19[_slotIncrement13] = (Int16)value; }
+        public Int16 SlotIncrement { get => (Int16)communicationState19[_slotIncrement13]; set => communicationState19[_slotIncrement13] = value; }
 
         /// <summary>
         /// Number of consecutive slots to allocate.
