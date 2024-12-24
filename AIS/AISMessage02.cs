@@ -9,6 +9,7 @@ namespace TensionDev.Maritime.AIS
     /// </summary>
     public class AISMessage02 : AISMessage
     {
+        private const double RATE_OF_TURN_COEFFICIENT = 4.733;
         private UInt64 _bitVector0_59;
         private UInt64 _bitVector60_119;
         private UInt64 _bitVector120_167;
@@ -61,7 +62,7 @@ namespace TensionDev.Maritime.AIS
                 }
                 else
                 {
-                    Double rot = Math.Pow(rateOfTurn8 / 4.733, 2);
+                    Double rot = Math.Pow(rateOfTurn8 / RATE_OF_TURN_COEFFICIENT, 2);
                     if (rateOfTurn8 < 0)
                     {
                         rot *= -1;
@@ -214,20 +215,26 @@ namespace TensionDev.Maritime.AIS
             {
                 if (rateOfTurn < 0)
                 {
-                    rateOfTurn8 = (Int16)((-1) * Math.Min((UInt16)(4.733 * Math.Sqrt(Math.Abs(rateOfTurn))),
-                        (UInt16)126));
+                    var raw = (RATE_OF_TURN_COEFFICIENT * Math.Sqrt(Math.Abs(rateOfTurn)));
+                    raw = Math.Floor(raw + 0.5);
+                    var value = Math.Min((UInt16)raw,
+                        (UInt16)126);
+                    rateOfTurn8 = (Int16)((-1) * value);
                 }
                 else
                 {
-                    rateOfTurn8 = (Int16)Math.Min((UInt16)(4.733 * Math.Sqrt(Math.Abs(rateOfTurn))),
+                    var raw = (RATE_OF_TURN_COEFFICIENT * Math.Sqrt(Math.Abs(rateOfTurn)));
+                    raw = Math.Floor(raw + 0.5);
+                    var value = Math.Min((UInt16)raw,
                         (UInt16)126);
+                    rateOfTurn8 = (Int16)value;
                 }
             }
             else
             {
                 // turning left at more than 5° per 30 s (No TI available)
                 // turning left at more than 10° per minute
-                if (rateOfTurn < 10)
+                if (rateOfTurn < -10)
                 {
                     rateOfTurn8 = -127;
                 }

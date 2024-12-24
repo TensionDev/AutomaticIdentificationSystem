@@ -567,7 +567,7 @@ namespace TensionDev.Maritime.AIS
             _bitVector240_299 |= shipAndCargoType8;
 
             _bitVector240_299 <<= 9;
-            _bitVector240_299 = dimensionToBow9;
+            _bitVector240_299 |= dimensionToBow9;
 
             _bitVector240_299 <<= 9;
             _bitVector240_299 |= dimensionToStern9;

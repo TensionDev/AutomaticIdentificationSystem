@@ -55,7 +55,7 @@ namespace TensionDev.Maritime.AIS
                     throw new NotImplementedException("Sentence Identifier not recognised.");
                 }
 
-                String[] vs = sentence.Split(',', '*' );
+                String[] vs = sentence.Split(',', '*');
 
                 // Ensure sentences count is equal to sentence fragment count.
                 if (vs[1] != sentences.Count.ToString())
@@ -67,10 +67,9 @@ namespace TensionDev.Maritime.AIS
                 {
                     sequenceId = vs[3];
                 }
-                else
+                else if (sequenceId != vs[3])
                 {
-                    if (sequenceId != vs[3])
-                        throw new InvalidOperationException("Sentences do not belong to the same sequence.");
+                    throw new InvalidOperationException("Sentences do not belong to the same sequence.");
                 }
 
                 // Taking first message for Message ID.
