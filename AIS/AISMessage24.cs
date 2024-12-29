@@ -391,7 +391,7 @@ namespace TensionDev.Maritime.AIS
 
             if (PartNumber == PartNumberEnum.PartA)
             {
-                stringBuilder.AppendFormat("!AIVDM,1,1,,B,{0},2", payload[0]);
+                stringBuilder.AppendFormat("!AI{0},1,1,,B,{1},2", SentenceFormatter.ToString(), payload[0]);
             }
             else
             {

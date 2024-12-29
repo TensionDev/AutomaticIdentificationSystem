@@ -5,16 +5,168 @@ using Xunit;
 
 namespace XUnitTestProjectAIS
 {
-    public class UnitTestAISMessage18
+    public class UnitTestAISMessage18 : IDisposable
     {
+        private bool disposedValue;
+
         private const Int32 POSITIONAL_PRECISION = 5;
+        private const Int32 ROT_PRECISION = 0;
+
+        private readonly AISMessage18 _aisMessage18;
+
+        public UnitTestAISMessage18()
+        {
+            _aisMessage18 = new AISMessage18();
+        }
+
+        [Fact]
+        public void TestUserId()
+        {
+            string userId = "123456789";
+            string expected = "123456789";
+
+            _aisMessage18.UserId = userId;
+            string actual = _aisMessage18.UserId;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void TestSpeedOverGroundValid()
+        {
+            decimal speedOverGround = 10.0M;
+            decimal expected = 10.0M;
+
+            _aisMessage18.SpeedOverGroundKnots = speedOverGround;
+            decimal actual = _aisMessage18.SpeedOverGroundKnots;
+
+            Assert.True(_aisMessage18.SpeedOverGroundAvailable);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void TestSpeedOverGroundInvalid()
+        {
+            decimal speedOverGround = 102.4M;
+            decimal expected = 0M;
+
+            _aisMessage18.SpeedOverGroundKnots = speedOverGround;
+            decimal actual = _aisMessage18.SpeedOverGroundKnots;
+
+            Assert.False(_aisMessage18.SpeedOverGroundAvailable);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void TestLongitudeValid()
+        {
+            decimal longitude = 103.833333M;
+            decimal expected = 103.833333M;
+
+            _aisMessage18.LongitudeDecimalDegrees = longitude;
+            decimal actual = _aisMessage18.LongitudeDecimalDegrees;
+
+            Assert.True(_aisMessage18.LongitudeAvailable);
+            Assert.Equal(expected, actual, POSITIONAL_PRECISION);
+        }
+
+        [Fact]
+        public void TestLongitudeInvalid()
+        {
+            decimal longitude = 181.0M;
+            decimal expected = 181.0M;
+
+            _aisMessage18.LongitudeDecimalDegrees = longitude;
+            decimal actual = _aisMessage18.LongitudeDecimalDegrees;
+
+            Assert.False(_aisMessage18.LongitudeAvailable);
+            Assert.Equal(expected, actual, POSITIONAL_PRECISION);
+        }
+
+        [Fact]
+        public void TestLatitudeValid()
+        {
+            decimal latitude = 1.283333M;
+            decimal expected = 1.283333M;
+
+            _aisMessage18.LatitudeDecimalDegrees = latitude;
+            decimal actual = _aisMessage18.LatitudeDecimalDegrees;
+
+            Assert.True(_aisMessage18.LatitudeAvailable);
+            Assert.Equal(expected, actual, POSITIONAL_PRECISION);
+        }
+
+        [Fact]
+        public void TestLatitudeInvalid()
+        {
+            decimal latitude = 91.0M;
+            decimal expected = 91.0M;
+
+            _aisMessage18.LatitudeDecimalDegrees = latitude;
+            decimal actual = _aisMessage18.LatitudeDecimalDegrees;
+
+            Assert.False(_aisMessage18.LatitudeAvailable);
+            Assert.Equal(expected, actual, POSITIONAL_PRECISION);
+        }
+
+        [Fact]
+        public void TestCourseOverGroundValid()
+        {
+            decimal courseOverGround = 45.0M;
+            decimal expected = 45.0M;
+
+            _aisMessage18.CourseOverGroundDegrees = courseOverGround;
+            decimal actual = _aisMessage18.CourseOverGroundDegrees;
+
+            Assert.True(_aisMessage18.CourseOverGroundAvailable);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void TestCourseOverGroundInvalid()
+        {
+            decimal courseOverGround = 720.0M;
+            decimal expected = 360.0M;
+
+            _aisMessage18.CourseOverGroundDegrees = courseOverGround;
+            decimal actual = _aisMessage18.CourseOverGroundDegrees;
+
+            Assert.False(_aisMessage18.CourseOverGroundAvailable);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void TestTrueHeadingValid()
+        {
+            ushort trueHeading = 270;
+            ushort expected = 270;
+
+            _aisMessage18.TrueHeadingDegrees = trueHeading;
+            ushort actual = _aisMessage18.TrueHeadingDegrees;
+
+            Assert.True(_aisMessage18.TrueHeadingAvailable);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void TestTrueHeadingInvalid()
+        {
+            ushort trueHeading = 720;
+            ushort expected = 511;
+
+            _aisMessage18.TrueHeadingDegrees = trueHeading;
+            ushort actual = _aisMessage18.TrueHeadingDegrees;
+
+            Assert.False(_aisMessage18.TrueHeadingAvailable);
+            Assert.Equal(expected, actual);
+        }
 
         [Fact]
         public void AIS18Decoding01()
         {
             IList<String> sentences = new List<String>()
             {
-                "!AIVDM,1,1,,B,B52K>;h00Fc>jpUlNV@ikwpUoP06,0*4C"
+                "!AIVDM,1,1,,B,B52K>;h00Fc>jpUlNV@ikwpUoP06,0*4F\r\n"
             };
 
             AISMessage aisMessage = AISMessage.DecodeSentences(sentences);
@@ -54,7 +206,7 @@ namespace XUnitTestProjectAIS
         {
             IList<String> sentences = new List<String>()
             {
-                "!AIVDM,1,1,,B,B5O6hr00<veEKmUaMFdEow`UWP06,0*4F"
+                "!AIVDM,1,1,,B,B5O6hr00<veEKmUaMFdEow`UWP06,0*4F\r\n"
             };
 
             AISMessage aisMessage = AISMessage.DecodeSentences(sentences);
@@ -87,6 +239,68 @@ namespace XUnitTestProjectAIS
             Assert.Equal(0, communicationState.SlotIncrement);
             Assert.Equal(3, communicationState.NumberOfSlots);
             Assert.False(communicationState.KeepFlag);
+        }
+
+        [Fact]
+        public void AIS18Encoding01()
+        {
+            IList<String> expected = new List<String>()
+            {
+                "!AIVDM,1,1,,B,B52K>;h00Fc>jpUlNV@ikwpP7P06,0*12\r\n"
+            };
+
+            _aisMessage18.MessageId = 18;
+            _aisMessage18.RepeatIndicator = 0;
+            _aisMessage18.UserId = "338087471";
+            _aisMessage18.SpeedOverGroundKnots = 0.1M;
+            _aisMessage18.PositionAccuracy = false;
+            _aisMessage18.LongitudeDecimalDegrees = -74.0721316M;
+            _aisMessage18.LatitudeDecimalDegrees = 40.684540M;
+            _aisMessage18.CourseOverGroundDegrees = 79.6M;
+            _aisMessage18.TrueHeadingDegrees = 511;
+            _aisMessage18.Timestamp = 49;
+            _aisMessage18.RAIMFlag = true;
+            _aisMessage18.CommunicationStateSelectorFlag = true;
+            _aisMessage18.CommunicationState = new ITDMACommunicationState()
+            {
+                SyncState = AISCommunicationState.SyncStateEnum.SyncToAnotherStation,
+                SlotIncrement = 0,
+                NumberOfSlots = 3,
+                KeepFlag = false,
+            };
+
+            IList<String> actual = _aisMessage18.EncodeSentences();
+
+            Assert.Equivalent(expected, actual);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects)
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                disposedValue = true;
+            }
+        }
+
+        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        // ~UnitTestAISMessage18()
+        // {
+        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
