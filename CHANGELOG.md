@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.2] - 2025-05-15
+[v0.4.2](https://github.com/TensionDev/AutomaticIdentificationSystem/releases/tag/v0.4.2)
+
+### Fixed
+- Fixed Rate of Turn bug in AIS Messages 01, 02 and 03.
+- Fixed Type of Ship and Cargo Type bug in AIS Message 19.
+- Fixed SentenceFormatter in AIS Message 24.
+
+
 ## [v0.4.1] - 2022-05-26
 [v0.4.1](https://github.com/TensionDev/AutomaticIdentificationSystem/releases/tag/v0.4.1)
 
