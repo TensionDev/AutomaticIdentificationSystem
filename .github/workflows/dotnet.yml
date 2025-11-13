@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        dotnet: [ '8.0.x' ]
+        dotnet: [ '8.0.x', '10.0.x' ]
     name: .NET ${{ matrix.dotnet }}
 
     steps:
@@ -69,7 +69,7 @@ jobs:
 
     strategy:
       matrix:
-        dotnet: [ '8.0.x' ]
+        dotnet: [ '8.0.x', '10.0.x' ]
         os: [macos-latest, ubuntu-latest, windows-latest]
     
     runs-on: ${{ matrix.os }}
