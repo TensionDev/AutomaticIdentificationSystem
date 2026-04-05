@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AIS\AIS.csproj" />
+    <ProjectReference Include="..\TensionDev.Maritime.AIS\TensionDev.Maritime.AIS.csproj" />
   </ItemGroup>
 
 </Project>
