@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TensionDev.Maritime.AIS;
 using Xunit;
 
-namespace XUnitTestProjectAIS
+namespace TensionDev.Maritime.AIS.Tests
 {
     public class UnitTestAISMessage05 : IDisposable
     {

@@ -14,16 +14,26 @@
     <Description>A project to encode and decode known AIS messages.</Description>
     <Copyright>Copyright (c) TensionDev 2021</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/TensionDev/AutomaticIdentificationSystem</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/TensionDev/AutomaticIdentificationSystem</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/TensionDev/Maritime.AIS</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/TensionDev/Maritime.AIS</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>AIS</PackageTags>
     <PackageReleaseNotes>Initial project release</PackageReleaseNotes>
     <NeutralLanguage>en-SG</NeutralLanguage>
-    <AssemblyVersion>0.4.0.0</AssemblyVersion>
-    <FileVersion>0.4.2.0</FileVersion>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="TensionDev.Maritime.AIS.Tests" />
+  </ItemGroup>
 
 </Project>
